@@ -1,0 +1,71 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+   <div class="col-lg-6">
+     <div class="box-element" id="form-wrapper">
+            <form id="form" method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <div id="user-info">
+                  <div class="form-field">
+                    <label for="name">Name:</label>
+                    <input required class="form-control" type="text" id="name" name="name" placeholder="Name..">
+                  </div>
+                  <div class="form-field">
+                    <label for="email">Email:</label>
+                    <input required class="form-control" type="email" id="email" name="email" placeholder="Email..">
+                  </div>
+
+                </div>
+                <div id="shipping-info">
+                    <hr>
+						<p>Shipping Information:</p>
+						<hr>
+						<div class="form-field">
+							<label for="address">Address:</label>
+							<input class="form-control" type="text" id="address" name="address" placeholder="Address..">
+						</div>
+						<!-- Other shipping fields -->
+                </div>
+                <hr>
+                <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+            </form>
+
+       </div>
+       <br>
+
+       <div class="box-element" id="payment-info">
+           <small>Paypal options</small>
+
+       </div>
+
+    </div>
+    <div class="col-lg-6">
+        <div class="box-element">
+            <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to cart</a>
+            <hr>
+            <h3>Order Summary</h3>
+            <hr>
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
+                <div style="flex:2"><p>{{ item.product.name }}</p></div>
+                <div style="flex:1"><p>${{ item.product.price }}</p></div>
+                <div style="flex:1"><p>x{{ item.quantity }}</p></div>
+            </div>
+            {% endfor %}
+            <h5>Items: {{ order.get_cart_items }}</h5>
+            <h5>Cart total: {{ order.get_cart_total | floatformat:2 }}</h5>
+        </div>
+    </div>
+</div>
+<script>
+  type="text/javascript"
+  var shipping = '{{order.shipping}}'
+
+  if(shipping== 'False'){
+    document.getElementById('shipping-info').innerHTML = ''
+
+  }
+</script>
+{% endblock content %}
