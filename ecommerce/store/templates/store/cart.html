@@ -1,7 +1,7 @@
 {% extends 'store/main.html'%}
 {% load static%}
 {% block content %}
-    
+    {% for item in items %}
     <div class="row">
       <div class="col-lg-12"> 
         <div class="box-element">
@@ -20,7 +20,7 @@
             </table>
             
         </div>
-        
+        {% endfor %}
       
         <br>
         <div class="box-element">
